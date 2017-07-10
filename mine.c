@@ -30,6 +30,7 @@
 #include <pthread.h>
 
 #include "shabal.h"
+#include "mshabal.h"
 #include "helper.h"
 
 // Do not report results with deadline above this to the node. If you mine solo set this to 10000 to avoid stressing out the node.
@@ -148,26 +149,39 @@ char *contactWallet(char *req, int bytes) {
 
 void procscoop(unsigned long long nonce, int n, char *data, unsigned long long account_id) {
 	char *cache;
-	char sig[32 + 64];
+	char sig[4][32 + 64];
+	char res[4][32];
 
 	cache = data;
 
-	int v;	
+	int i, v;
 
-	memmove(sig, signature, 32);
+	for(i=0; i<4; ++i)
+	memmove(sig[i], signature, 32);
 
-	for(v=0; v<n; v++) {
-		memmove(&sig[32], cache, 64);
+	for(v=0; v<n;) {
+		int j = n - v < 4 ? 1 : 4;
+		for(i=0; i<j; ++i) {
+		memmove(&sig[i][32], cache, 64);
+		cache += 64;
+		}
 
+		if (1 == j) {
 		shabal_context x;
 		shabal_init(&x, 256);
-		shabal(&x, sig, 64 + 32);
+		shabal(&x, sig[0], 64 + 32);
 
-		char res[32];
+		shabal_close(&x, 0, 0, res[0]);
+		} else {
+		mshabal_context x;
+		sse4_mshabal_init(&x, 256);
+		sse4_mshabal(&x, sig[0], sig[1], sig[2], sig[3], 64 + 32);
 
-		shabal_close(&x, 0, 0, res);
+		sse4_mshabal_close(&x, 0, 0, 0, 0, 0, res[0], res[1], res[2], res[3]);
+		}
 
-		unsigned long long *wertung = (unsigned long long*)res;
+		for(i=0; i<j; ++i) {
+		unsigned long long *wertung = (unsigned long long*)res[i];
 
 // Sharepool: Submit all deadlines below threshold
 // Uray_pool: Submit best deadline
@@ -227,8 +241,9 @@ void procscoop(unsigned long long nonce, int n, char *data, unsigned long long a
 		}
 
 #endif
+		v++;
 		nonce++;
-		cache += 64;
+		}
 	}
 }
 
