@@ -1,24 +1,30 @@
-#MDCCT
+# MDCCT
 =============
+### Original code 
+Linux BURST coin miner/optimizer (untouched original code)<br>
+Author: Niksa Franceschi <niksa.franceschi@gmail.com><br>
+Burst for donations: BURST-RQW7-3HNW-627D-3GAEV<br>
+<br>
+Linux miner/plotter/plot optimizer by dcct / Markus Tervooren <info@bchain.info><br>
+Burst: BURST-R5LP-KEL9-UYLG-GFG6T<br>
+
+### Plot Generator Optimized for SSE4 / AVX2
+Modified by https://github.com/Mirkic7/mdcct
 Linux BURST coin plot generator optimized for SSE4 / AVX2<br>
 Speed gain of ~2x using SSE4 core instead of original<br>
 AVX2 not tested (report results!)<br>
 <br>
-Linux BURST coin miner/optimizer (untouched original code)<br>
-Author: Niksa Franceschi <niksa.franceschi@gmail.com><br>
-Burst for donations: BURST-RQW7-3HNW-627D-3GAEV<br>
-
-###### Original code 
-Linux miner/plotter/plot optimizer by dcct / Markus Tervooren <info@bchain.info><br>
-Burst: BURST-R5LP-KEL9-UYLG-GFG6T<br>
-
-Modifed using BurstSoftware code: https://github.com/BurstTools/BurstSoftware <br>
+Modified using BurstSoftware code: https://github.com/BurstTools/BurstSoftware <br>
 by Cerr Janror <cerr.janror@gmail.com><br>
 Burst: BURST-LNVN-5M4L-S9KP-H5AAC<br>
 
+### Miner Optimized for SSE4
+Modified by https://github.com/felixkylo82/mdcct.git <br>
+by Felix LO <kuiyipl@acm.org><br>
+Burst: BURST-VFCU-33N9-9GKF-34THX<br>
 
 ### Installing
-    git clone https://github.com/Mirkic7/mdcct.git
+    git clone https://github.com/felixkylo82/mdcct.git
     cd mdcct
     make
 
@@ -32,7 +38,7 @@ However, it will use 2x memory.<br>
 ###### For SSE4
     Usage:
 ```bash
-./plot -k KEY [ -x CORE ] [-d DIRECTORY] [-s STARTNONCE] [-n NONCES] [-m STAGGERSIZE] [-t THREADS] -a
+./plot -k NUMERICACCOUNTID [ -x CORE ] [-d DIRECTORY] [-s STARTNONCE] [-n NONCES] [-m STAGGERSIZE] [-t THREADS] -a
 ```
      CORE:
        0 - default core
@@ -42,7 +48,7 @@ However, it will use 2x memory.<br>
 ###### For AVX2
     Usage:
 ```bash
-./plotavx2 -k KEY [ -x CORE ] [-d DIRECTORY] [-s STARTNONCE] [-n NONCES] [-m STAGGERSIZE] [-t THREADS] -a
+./plotavx2 -k NUMERICACCOUNTID [ -x CORE ] [-d DIRECTORY] [-s STARTNONCE] [-n NONCES] [-m STAGGERSIZE] [-t THREADS] -a
 ```
       CORE:
         0 - default core
