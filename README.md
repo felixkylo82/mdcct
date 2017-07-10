@@ -21,7 +21,7 @@ Burst: BURST-LNVN-5M4L-S9KP-H5AAC<br>
 ### Miner Optimized for SSE4
 Modified by https://github.com/felixkylo82/mdcct.git <br>
 by Felix LO <kuiyipl@acm.org><br>
-Burst: BURST-VFCU-33N9-9GKF-34THX<br>
+Burst: BURST-MYQF-JSER-A8F7-4MXQ9<br>
 
 ### Installing
     git clone https://github.com/felixkylo82/mdcct.git
