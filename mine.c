@@ -599,14 +599,12 @@ int main(int argc, char **argv) {
 		// Remember starttime
 		time(&starttime);
 
-#ifndef SHARE_POOL
 		// Tell all threads to stop:
 		stopThreads = 1;
 		for(i = 2; i < argc; i++)
 		       pthread_join(worker[i], NULL);
 
 		stopThreads = 0;
-#endif
 	}
 }
 
