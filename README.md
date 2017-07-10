@@ -1,5 +1,5 @@
 # MDCCT
-=============
+
 ### Original code 
 Linux BURST coin miner/optimizer (untouched original code)<br>
 Author: Niksa Franceschi <niksa.franceschi@gmail.com><br>
