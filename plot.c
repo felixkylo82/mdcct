@@ -367,7 +367,7 @@ void *writecache(void *arguments) {
 	int h = (int)(m / 60);
 	m -= h * 60;
 
-	printf("\33[2K\r%i Percent done. %i nonces/minute, %i:%02i left", percent, speed, h, m);
+	printf("\33[2K\r%i Percent done. %i nonces/minute, %i:%02i minutes left", percent, speed, h, m);
 	fflush(stdout);
 
 	return NULL;
@@ -633,6 +633,13 @@ int main(int argc, char **argv) {
 	if(asyncmode == 1) pthread_join(writeworker, NULL);
 
 	close(ofd);
+
+	if(asyncmode == 1) {
+		free(acache[1]);
+		free(acache[0]);
+	} else {
+		free(cache);
+	}
 
 	printf("\nFinished plotting.\n");
 	return 0;
