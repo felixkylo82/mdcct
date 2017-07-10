@@ -34,7 +34,7 @@ Async writer can speed up plotting due to not waiting to write to disk.<br>
 This is especially true with slower disks and larger stagger sizes.<br>
 However, it will use 2x memory.<br>
 
-### Usage
+### Plot Generator Usage
 ###### For SSE4
     Usage:
 ```bash
@@ -57,3 +57,11 @@ However, it will use 2x memory.<br>
        -a = ASYNC writer mode (will use 2x memory!)
  
 ###### Not specifying -x option will default to original dcct ploter
+
+### Pool Miner Usage
+    Usage:
+```bash
+./mine_pool_all HOST:PORT DIRECTORY [DIRECTORY...]
+```
+ 
+###### One thread is dedicated, under each directory, to read plots and to find better deadlines
