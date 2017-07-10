@@ -107,7 +107,7 @@ char *contactWallet(char *req, int bytes) {
 	setsockopt(s, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv,sizeof(struct timeval));
 
 	if(connect(s, (struct sockaddr*)&ss, sizeof(struct sockaddr_in)) == -1) {
-		printf("\nError sending result to node                           \n");
+		printf("\nError connecting to node\n");
 		fflush(stdout);
 		return NULL;
 	}
@@ -125,7 +125,7 @@ char *contactWallet(char *req, int bytes) {
 	int bytesread = 0, rbytes;
 	do {
 		rbytes = read(s, &readbuffer[bytesread], BUFFERSIZE - bytesread);
-		if(bytes > 0)
+		if(rbytes > 0)
 			bytesread += rbytes;
 
 	} while(rbytes > 0 && bytesread < BUFFERSIZE);
@@ -286,7 +286,8 @@ void *work_i(void *x_void_ptr) {
 						int bytes = 0, b;
 						do {
 							b = pread(fh, &cache[bytes], readsize - bytes, i);
-							bytes += b;
+							if (b > 0)
+								bytes += b;
 						} while(bytes < readsize && b > 0);	// Read until cache is filled (or file ended)
 			
 						if(b != 0) {
@@ -477,7 +478,7 @@ int main(int argc, char **argv) {
 	pthread_t worker[argc];
 	time(&starttime);
 
-	// Get startpoint:
+	// Get startpoint
 	update();	
 
 	// Main loop
@@ -508,6 +509,7 @@ int main(int argc, char **argv) {
 		for(i = 2; i < argc; i++) {
 			if(pthread_create(&worker[i], NULL, work_i, argv[i])) {
 				printf("\nError creating thread. Out of memory? Try lower stagger size\n");
+				fflush(stdout);
 				exit(-1);
 			}
 		}
