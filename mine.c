@@ -36,7 +36,7 @@
 #define MAXDEADLINE	5000000
 
 // Change if you need
-#define DEFAULT_PORT	8125
+#define DEFAULT_PORT	8124
 
 // These are fixed for BURST. Dont change!
 #define HASH_SIZE	32
@@ -91,7 +91,7 @@ char passphrase[BUFFERSIZE + 1];
 char readbuffer[BUFFERSIZE + 1];
 
 // Some more buffers
-char writebuffer[BUFFERSIZE + 1];
+//char writebuffer[BUFFERSIZE + 1];
 
 char *contactWallet(char *req, int bytes) {
 	int s = socket(AF_INET, SOCK_STREAM, IPPROTO_IP);
@@ -190,6 +190,7 @@ void procscoop(unsigned long long nonce, int n, char *data, unsigned long long a
 #endif
 
 
+	char writebuffer[BUFFERSIZE + 1];
 #ifdef URAY_POOL
 	                        int bytes = sprintf(writebuffer, "POST /burst?requestType=submitNonce&accountId=%llu&nonce=%llu HTTP/1.0\r\nHost: %s:%i\r\n\r\nConnection: close\r\n\r\n", account_id, bestn, nodehost, nodeport);
 #else
@@ -320,6 +321,7 @@ void *work_i(void *x_void_ptr) {
 }
 
 int pollNode() {
+	char writebuffer[BUFFERSIZE + 1];
 
 	// Share-pool works differently
 #ifdef SHARE_POOL
