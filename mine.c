@@ -63,6 +63,7 @@ char signature[33];
 char oldSignature[33];
 
 char nodeip[16];
+char nodehost[1024];
 int nodeport = DEFAULT_PORT;
 
 unsigned long long bytesRead = 0;
@@ -190,9 +191,9 @@ void procscoop(unsigned long long nonce, int n, char *data, unsigned long long a
 
 
 #ifdef URAY_POOL
-	                        int bytes = sprintf(writebuffer, "POST /burst?requestType=submitNonce&accountId=%llu&nonce=%llu HTTP/1.0\r\nConnection: close\r\n\r\n", account_id,bestn);
+	                        int bytes = sprintf(writebuffer, "POST /burst?requestType=submitNonce&accountId=%llu&nonce=%llu HTTP/1.0\r\nHost: %s:%i\r\n\r\nConnection: close\r\n\r\n", account_id, bestn, nodehost, nodeport);
 #else
-				int bytes = sprintf(writebuffer, "POST /burst?requestType=submitNonce&secretPhrase=%s&nonce=%llu HTTP/1.0\r\nConnection: close\r\n\r\n", passphrase, bestn);
+				int bytes = sprintf(writebuffer, "POST /burst?requestType=submitNonce&secretPhrase=%s&nonce=%llu HTTP/1.0\r\nHost: %s:%i\r\n\r\nConnection: close\r\n\r\n", passphrase, bestn, nodehost, nodeport);
 #endif
 				char *buffer = contactWallet( writebuffer, bytes );
 
@@ -322,9 +323,9 @@ int pollNode() {
 
 	// Share-pool works differently
 #ifdef SHARE_POOL
-	int bytes = sprintf(writebuffer, "GET /pool/getMiningInfo HTTP/1.0\r\nHost: %s:%i\r\nConnection: close\r\n\r\n", nodeip, nodeport);
+	int bytes = sprintf(writebuffer, "GET /pool/getMiningInfo HTTP/1.0\r\nHost: %s:%i\r\nConnection: close\r\n\r\n", nodehost, nodeport);
 #else
-	int bytes = sprintf(writebuffer, "POST /burst?requestType=getMiningInfo HTTP/1.0\r\nConnection: close\r\n\r\n");
+	int bytes = sprintf(writebuffer, "POST /burst?requestType=getMiningInfo HTTP/1.0\r\nHost: %s:%i\r\nConnection: close\r\n\r\n", nodehost, nodeport);
 #endif
 
 	char *buffer = contactWallet( writebuffer, bytes );
@@ -472,6 +473,8 @@ int main(int argc, char **argv) {
 	printf("Using %s port %i\n", hostname, nodeport);
 
 	hostname_to_ip(hostname, nodeip);
+	strncpy(nodehost, hostname, 1024);
+	nodehost[1023] = '\0';
 
 	memset(oldSignature, 0, 33);
 
@@ -534,7 +537,7 @@ int main(int argc, char **argv) {
 				red /= 10;
 			}
 
-			int db = sprintf(f2, "POST /pool/submitWork HTTP/1.0\r\nHost: %s:%i\r\nContent-Type: text/plain;charset=UTF-8\r\nContent-Length: %i\r\n\r\n{\"%s\", %u}", nodeip, nodeport, used + 6 + ilen , f1, used);
+			int db = sprintf(f2, "POST /pool/submitWork HTTP/1.0\r\nHost: %s:%i\r\nContent-Type: text/plain;charset=UTF-8\r\nContent-Length: %i\r\n\r\n{\"%s\", %u}", nodehost, nodeport, used + 6 + ilen , f1, used);
 
 			printf("\nServer response: %s\n", contactWallet(f2, db));
 			
