@@ -36,7 +36,6 @@ However, it will use 2x memory.<br>
 
 ### Plot Generator Usage
 ###### For SSE4
-    Usage:
 ```bash
 ./plot -k NUMERICACCOUNTID [ -x CORE ] [-d DIRECTORY] [-s STARTNONCE] [-n NONCES] [-m STAGGERSIZE] [-t THREADS] -a
 ```
@@ -46,7 +45,6 @@ However, it will use 2x memory.<br>
      -a = ASYNC writer mode (will use 2x memory!)
 
 ###### For AVX2
-    Usage:
 ```bash
 ./plotavx2 -k NUMERICACCOUNTID [ -x CORE ] [-d DIRECTORY] [-s STARTNONCE] [-n NONCES] [-m STAGGERSIZE] [-t THREADS] -a
 ```
@@ -58,8 +56,8 @@ However, it will use 2x memory.<br>
  
 ###### Not specifying -x option will default to original dcct ploter
 
-### Pool Miner Usage
-    Usage:
+### Miner Usage
+###### For SSE4 Pool Mining
 ```bash
 ./mine_pool_all HOST:PORT DIRECTORY [DIRECTORY...]
 ```
