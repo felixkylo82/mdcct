@@ -23,14 +23,14 @@ plot:		plot.c shabal64.o helper64.o mshabal_sse4.o
 plotavx2:	plot.c shabal64.o helper64.o mshabal_sse4.o mshabal256_avx2.o 
 		gcc -Wall -m64 -O2 -o plotavx2 plot.c shabal64.o helper64.o mshabal_sse4.o mshabal256_avx2.o -march=native -lpthread -std=gnu99 -DAVX2
 
-mine:		mine.c shabal64.o helper64.o
-		gcc -Wall -m64 -O2 -DSOLO -o mine mine.c shabal64.o helper64.o -lpthread
+mine:		mine.c shabal64.o helper64.o mshabal_sse4.o
+		gcc -Wall -m64 -O3 -DSOLO -o mine mine.c shabal64.o helper64.o mshabal_sse4.o -march=native -lpthread
 
-mine_pool_all:	mine.c shabal64.o helper64.o
-		gcc -Wall -m64 -O2 -DURAY_POOL -o mine_pool_all mine.c shabal64.o helper64.o -lpthread
+mine_pool_all:	mine.c shabal64.o helper64.o mshabal_sse4.o
+		gcc -Wall -m64 -O3 -DURAY_POOL -o mine_pool_all mine.c shabal64.o helper64.o mshabal_sse4.o -march=native -lpthread
 
-mine_pool_share:	mine.c shabal64.o helper64.o
-		gcc -Wall -m64 -O2 -DSHARE_POOL -o mine_pool_share mine.c shabal64.o helper64.o -lpthread
+mine_pool_share:	mine.c shabal64.o helper64.o mshabal_sse4.o
+		gcc -Wall -m64 -O3 -DSHARE_POOL -o mine_pool_share mine.c shabal64.o helper64.o mshabal_sse4.o -march=native -lpthread
 
 optimize:	optimize.c helper64.o
 		gcc -Wall -m64 -O2 -o optimize optimize.c helper64.o
